@@ -46,7 +46,7 @@ namespace Code
             }
             if (gameOverText.text != "")
             {
-                if (Input.anyKeyDown)
+                if (Input.GetKeyDown("Escape"))
                 {
                     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                     ResetStatus();
@@ -98,7 +98,7 @@ namespace Code
             {
                 gameOverText.text = "Game Over >_<";
             }
-            gameOverText.text += "\nPress Any Key to Restart";
+            gameOverText.text += "\nPress Esc to Restart";
         }
     }
 }

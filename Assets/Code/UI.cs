@@ -12,11 +12,12 @@ namespace Code
         public TextMeshProUGUI PetsReceivedText;
         public TextMeshProUGUI TimeLeftText;
         public TextMeshProUGUI gameOverText;
-        public float TimeLimit = 45;
+        public float TimeLimit = 60;
 
         private int _numHumans;
         private int _petsReceived;
         private int _timeLeft;
+        private bool _isGameOver;
 
 
         private void Start()
@@ -31,6 +32,7 @@ namespace Code
             _numHumans = FindObjectsOfType<HumanBehavior>().Length;
             _petsReceived = 0;
             _timeLeft = (int)(TimeLimit - Time.time);
+            _isGameOver = false;
             PetsReceivedText.text = $"Pets Received: {_petsReceived}/{_numHumans}";
             TimeLeftText.text = $"Time Left: {_timeLeft}";
             gameOverText.text = "";
@@ -44,9 +46,9 @@ namespace Code
             {
                 GameOver(false);
             }
-            if (gameOverText.text != "")
+            if (_isGameOver)
             {
-                if (Input.GetKeyDown("Escape"))
+                if (Input.GetButtonDown("Cancel"))
                 {
                     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                     ResetStatus();
@@ -83,6 +85,16 @@ namespace Code
             }
         }
 
+        public static bool IsGameOver()
+        {
+            return Singleton.IsGameOverInternal();
+        }
+
+        private bool IsGameOverInternal()
+        {
+            return _isGameOver;
+        }
+
         public static void GameOver(bool win)
         {
             Singleton.GameOverInternal(win);
@@ -90,6 +102,11 @@ namespace Code
 
         private void GameOverInternal(bool win)
         {
+            if (_isGameOver) 
+            {
+                return;
+            }
+            _isGameOver = true;
             if (win)
             {
                 gameOverText.text = "You Win ^_^";

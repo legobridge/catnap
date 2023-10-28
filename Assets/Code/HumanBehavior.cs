@@ -4,38 +4,60 @@ using UnityEngine;
 public class HumanBehavior : MonoBehaviour
 {
     public float RunawaySpeed = 2.5f;
-    public float Acceleration = 0.05f;
-    public float DirectionSwapInterval = 1.5f;
+    public float Acceleration = 0.22f;
+    public float DirectionSwapInterval = 1.2f;
     public float CatAvoidDistance = 2f;
+    public float FreezeTime = 3f;
 
+    private float _unfreezeAtTime = 0.0f;
     private bool _moveLeft = true;
     private float _nextSwapTime;
     private GameObject _cat;
     private Vector2 _headingToCat;
-
     private Rigidbody2D _rb;
+    private SpriteRenderer _spriteRenderer;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         _nextSwapTime = Random.value;
         _cat = FindObjectOfType<CatBehavior>().gameObject;
     }
 
     void Update()
     {
-
         Vector2 catDir = _cat.transform.position - transform.position;
         _headingToCat = catDir.normalized;
         var horizontalDistanceToCat = Mathf.Abs(catDir.x);
-        if (catDir.magnitude < CatAvoidDistance && horizontalDistanceToCat < CatAvoidDistance)
+
+        if (_unfreezeAtTime < Time.time)
         {
-            MoveAwayFromCat();
+            // If not frozen, move
+            if (catDir.magnitude < CatAvoidDistance && horizontalDistanceToCat < CatAvoidDistance)
+            {
+                MoveAwayFromCat();
+            }
+            else
+            {
+                MoveRandomly();
+            }
+        }
+
+        if (_rb.velocity.x < 0)
+        {
+            _spriteRenderer.flipX = true;
         }
         else
         {
-            MoveRandomly();
+            _spriteRenderer.flipX = false;
         }
+    }
+
+    public void Freeze()
+    {
+        _unfreezeAtTime = Time.time + FreezeTime;
+        _rb.velocity = new Vector2(0, _rb.velocity.y);
     }
 
     private void MoveAwayFromCat()

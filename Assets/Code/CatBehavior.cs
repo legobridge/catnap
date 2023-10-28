@@ -1,58 +1,55 @@
-using System.Collections;
-using System.Collections.Generic;
+using Code;
 using UnityEngine;
 
 public class CatBehavior : MonoBehaviour
 {
     public float Speed = 3.5f;
     public float JumpAmount = 4.0f;
+    public AudioClip MeowCilp;
+
     private bool onGround = false;
+    private Rigidbody2D _rb;
+    private AudioSource _audioSource;
 
-    private Rigidbody2D rb;
-
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody2D>();
-    }
-
-    // Start is called before the first frame update
     void Start()
     {
-        
+        _rb = GetComponent<Rigidbody2D>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         float x = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(x * Speed, rb.velocity.y);
+        _rb.velocity = new Vector2(x * Speed, _rb.velocity.y);
 
         float jump = Input.GetAxis("Jump");
         if (jump > 0 && onGround)
         {
-            rb.AddForce(Vector2.up * JumpAmount, ForceMode2D.Impulse);
+            _rb.AddForce(Vector2.up * JumpAmount, ForceMode2D.Impulse);
             onGround = false;
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.gameObject.CompareTag("Finish"))
+        if (collision.collider.gameObject.name == "Pillow" && collision.contacts[0].normal.y > 0.9f)
         {
-            Debug.Log("Game Over");
-            // gameOver
+            Meow();
+            UI.LandOnPillow();
         }
+    }
+
+    public void Meow()
+    {
+        _audioSource.PlayOneShot(MeowCilp);
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground") && collision.contacts[0].normal.y > 0.9f)
+        if (collision.gameObject.name == "Tilemap" && collision.contacts[0].normal.y > 0.9f)
         {
             onGround = true;
         }
     }
 
-    void FixedUpdate()
-    {
-    }
 }

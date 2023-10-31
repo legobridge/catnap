@@ -3,15 +3,16 @@ using UnityEngine;
 
 public class HumanBehavior : MonoBehaviour
 {
-    public float RunawaySpeed = 2.5f;
-    public float Acceleration = 0.32f;
-    public float DirectionSwapInterval = 1.2f;
+    public float RunawaySpeed = 2.4f;
+    public float Acceleration = 0.18f;
     public float CatAvoidDistance = 2f;
     public float FreezeTime = 3f;
+    public float PatrolDistance = 1f;
 
-    private float _unfreezeAtTime = 0.0f;
-    private bool _moveLeft = true;
-    private float _nextSwapTime;
+    private float _unfreezeAtTime;
+    private float _lastSwapTime;
+    private bool _moveLeft;
+    private float _prevXPos;
     private GameObject _cat;
     private Vector2 _headingToCat;
     private Rigidbody2D _rb;
@@ -19,9 +20,12 @@ public class HumanBehavior : MonoBehaviour
 
     private void Start()
     {
+        _unfreezeAtTime = Time.time;
+        _lastSwapTime = Time.time;
+        _moveLeft = Random.value < 0.5;
         _rb = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _nextSwapTime = Random.value / 2;
+        _prevXPos = transform.position.x;
         _cat = FindObjectOfType<CatBehavior>().gameObject;
     }
 
@@ -75,12 +79,14 @@ public class HumanBehavior : MonoBehaviour
 
     private void MoveRandomly()
     {
-        if (Time.time > _nextSwapTime)  // Change direction
+        // If too far from previous position or too long since last swap, change direction
+        if (Mathf.Abs(_prevXPos - transform.position.x) > PatrolDistance || Time.time - _lastSwapTime > 2.5f)  
         {
             _moveLeft = !_moveLeft;
+            _lastSwapTime = Time.time;
             _rb.velocity = new Vector2(0, _rb.velocity.y);
             _rb.angularVelocity = 0;
-            _nextSwapTime += DirectionSwapInterval;
+            _prevXPos = transform.position.x;
         }
         if (_moveLeft)
         {

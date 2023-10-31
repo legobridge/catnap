@@ -4,7 +4,7 @@ using UnityEngine;
 public class HumanBehavior : MonoBehaviour
 {
     public float RunawaySpeed = 2.5f;
-    public float Acceleration = 2.5f;
+    public float Acceleration = 0.32f;
     public float DirectionSwapInterval = 1.2f;
     public float CatAvoidDistance = 2f;
     public float FreezeTime = 3f;
@@ -21,7 +21,7 @@ public class HumanBehavior : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _nextSwapTime = Random.value;
+        _nextSwapTime = Random.value / 2;
         _cat = FindObjectOfType<CatBehavior>().gameObject;
     }
 

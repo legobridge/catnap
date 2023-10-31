@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RunawaySpeed: 2.5
-  Acceleration: 0.22
+  Acceleration: 2.5
   DirectionSwapInterval: 1.2
   CatAvoidDistance: 2
   FreezeTime: 3

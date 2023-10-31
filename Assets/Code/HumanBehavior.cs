@@ -4,7 +4,7 @@ using UnityEngine;
 public class HumanBehavior : MonoBehaviour
 {
     public float RunawaySpeed = 2.5f;
-    public float Acceleration = 0.22f;
+    public float Acceleration = 2.5f;
     public float DirectionSwapInterval = 1.2f;
     public float CatAvoidDistance = 2f;
     public float FreezeTime = 3f;
@@ -31,9 +31,9 @@ public class HumanBehavior : MonoBehaviour
         _headingToCat = catDir.normalized;
         var horizontalDistanceToCat = Mathf.Abs(catDir.x);
 
+        // If not frozen, move
         if (_unfreezeAtTime < Time.time)
         {
-            // If not frozen, move
             if (catDir.magnitude < CatAvoidDistance && horizontalDistanceToCat < CatAvoidDistance)
             {
                 MoveAwayFromCat();
@@ -44,7 +44,7 @@ public class HumanBehavior : MonoBehaviour
             }
         }
 
-        if (_rb.velocity.x < 0)
+        if (_moveLeft)
         {
             _spriteRenderer.flipX = true;
         }
@@ -58,6 +58,7 @@ public class HumanBehavior : MonoBehaviour
     {
         _unfreezeAtTime = Time.time + FreezeTime;
         _rb.velocity = new Vector2(0, _rb.velocity.y);
+        _rb.angularVelocity = 0;
     }
 
     private void MoveAwayFromCat()
@@ -78,6 +79,7 @@ public class HumanBehavior : MonoBehaviour
         {
             _moveLeft = !_moveLeft;
             _rb.velocity = new Vector2(0, _rb.velocity.y);
+            _rb.angularVelocity = 0;
             _nextSwapTime += DirectionSwapInterval;
         }
         if (_moveLeft)

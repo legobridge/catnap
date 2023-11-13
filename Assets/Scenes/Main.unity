@@ -6091,6 +6091,7 @@ GameObject:
   - component: {fileID: 1616696761}
   - component: {fileID: 1616696763}
   - component: {fileID: 1616696759}
+  - component: {fileID: 1616696764}
   m_Layer: 0
   m_Name: Pillow
   m_TagString: Untagged
@@ -6227,6 +6228,18 @@ CapsuleCollider2D:
   m_Offset: {x: 0.04637128, y: -0.055732965}
   m_Size: {x: 1.6478264, y: 1.1482502}
   m_Direction: 1
+--- !u!114 &1616696764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616696758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 506d5202cba39489abf631616ab66970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1992815920
 GameObject:
   m_ObjectHideFlags: 0

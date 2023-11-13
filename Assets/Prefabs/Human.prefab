@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RunawaySpeed: 2.4
-  Acceleration: 0.18
+  Acceleration: 2.8
   CatAvoidDistance: 2
   FreezeTime: 3
   PatrolDistance: 1

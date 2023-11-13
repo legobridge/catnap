@@ -29,7 +29,7 @@ public class HumanBehavior : MonoBehaviour
         _cat = FindObjectOfType<CatBehavior>().gameObject;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         Vector2 catDir = _cat.transform.position - transform.position;
         _headingToCat = catDir.normalized;

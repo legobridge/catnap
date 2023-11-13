@@ -21,7 +21,7 @@ public class CatBehavior : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         float x = Input.GetAxis("Horizontal");
         _rb.velocity = new Vector2(x * Speed, _rb.velocity.y);

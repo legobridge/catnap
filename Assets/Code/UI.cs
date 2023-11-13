@@ -1,5 +1,4 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -68,7 +67,8 @@ namespace Code
 
             if (_petsReceived == _numHumans)
             {
-                // TODO - change pillow sprite
+                var pillow = FindObjectOfType<PillowBehavior>();
+                pillow.GetComponent<SpriteRenderer>().color = Color.cyan;
             }
         }
 
